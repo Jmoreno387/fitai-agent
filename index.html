@@ -1,308 +1,505 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>FitAI Agent</title>
-<link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048953.png">
 
-<style>
+    <!-- CONFIGURACIÓN GENERAL -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-body{
-    background:#0f172a;
-    color:white;
-    font-family:Arial;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    margin:0;
-}
+    <!-- TÍTULO DE LA PÁGINA -->
+    <title>FitAI Agent</title>
 
-.container{
-    width:90%;
-    max-width:700px;
-    background:#1e293b;
-    padding:30px;
-    border-radius:20px;
-    box-shadow:0 0 20px rgba(0,0,0,.4);
-}
+    <!-- ÍCONO DE LA PESTAÑA -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/1048/1048953.png">
 
-h1{
-    text-align:center;
-    margin-bottom:25px;
-}
+    <style>
 
-input,
-select{
-    width:100%;
-    padding:12px;
-    margin-top:10px;
-    margin-bottom:20px;
-    border:none;
-    border-radius:10px;
-    font-size:16px;
-    background:#0f172a;
-    color:white;
-    outline:none;
-    transition:0.3s;
-    border:1px solid transparent;
-    box-sizing:border-box;
-}
+    /* =========================
+        ESTILOS GENERALES
+    ========================== */
 
-input::placeholder{
-    color:#94a3b8;
-}
-
-input:focus,
-select:focus{
-    border:1px solid #22c55e;
-    box-shadow:0 0 10px rgba(34,197,94,.3);
-}
-
-button{
-    width:100%;
-    padding:14px;
-    border:none;
-    border-radius:10px;
-    background:#22c55e;
-    color:white;
-    font-size:18px;
-    cursor:pointer;
-    transition:0.3s;
-    box-shadow:0 4px 15px rgba(34,197,94,.3);
-}
-
-button:hover{
-    background:#16a34a;
-    transform:translateY(-2px);
-}
-
-button:active{
-    transform:scale(0.98);
-}
-
-button:disabled{
-    background:#15803d;
-    cursor:not-allowed;
-    opacity:0.7;
-}
-
-#btnPDF{
-    display:none;
-    margin-top:20px;
-    background:#3b82f6;
-    box-shadow:0 4px 15px rgba(59,130,246,.3);
-}
-
-#btnPDF:hover{
-    background:#2563eb;
-}
-
-.loading{
-    display:none;
-    margin-top:20px;
-    text-align:center;
-    font-size:18px;
-    color:#22c55e;
-    font-weight:bold;
-    animation:pulse 1s infinite;
-}
-
-@keyframes pulse{
-    0%{
-        opacity:0.4;
+    body{
+        background:#0f172a;
+        color:white;
+        font-family:Arial;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        min-height:100vh;
+        margin:0;
     }
 
-    50%{
-        opacity:1;
+    /* =========================
+        CONTENEDOR PRINCIPAL
+    ========================== */
+
+    .container{
+        width:90%;
+        max-width:700px;
+        background:#1e293b;
+        padding:30px;
+        border-radius:20px;
+        box-shadow:0 0 20px rgba(0,0,0,.4);
     }
 
-    100%{
-        opacity:0.4;
-    }
-}
+    /* =========================
+        TÍTULO
+    ========================== */
 
-#resultado{
-    margin-top:30px;
-    background:#0f172a;
-    padding:20px;
-    border-radius:10px;
-    white-space:pre-wrap;
-    line-height:1.8;
-    animation:fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(10px);
+    h1{
+        text-align:center;
+        margin-bottom:25px;
     }
 
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
-}
+    /* =========================
+        INPUTS Y SELECT
+    ========================== */
 
-</style>
+    input,
+    select{
+        width:100%;
+        padding:12px;
+        margin-top:10px;
+        margin-bottom:20px;
+        border:none;
+        border-radius:10px;
+        font-size:16px;
+        background:#0f172a;
+        color:white;
+        outline:none;
+        transition:0.3s;
+        border:1px solid transparent;
+        box-sizing:border-box;
+    }
+
+    /* COLOR DEL PLACEHOLDER */
+
+    input::placeholder{
+        color:#94a3b8;
+    }
+
+    /* EFECTO AL HACER CLICK */
+
+    input:focus,
+    select:focus{
+        border:1px solid #22c55e;
+        box-shadow:0 0 10px rgba(34,197,94,.3);
+    }
+
+    /* =========================
+        BOTONES
+    ========================== */
+
+    button{
+        width:100%;
+        padding:14px;
+        border:none;
+        border-radius:10px;
+        background:#22c55e;
+        color:white;
+        font-size:18px;
+        cursor:pointer;
+        transition:0.3s;
+        box-shadow:0 4px 15px rgba(34,197,94,.3);
+    }
+
+    /* EFECTO HOVER */
+
+    button:hover{
+        background:#16a34a;
+        transform:translateY(-2px);
+    }
+
+    /* EFECTO CLICK */
+
+    button:active{
+        transform:scale(0.98);
+    }
+
+    /* BOTÓN DESHABILITADO */
+
+    button:disabled{
+        background:#15803d;
+        cursor:not-allowed;
+        opacity:0.7;
+    }
+
+    /* =========================
+        BOTÓN PDF
+    ========================== */
+
+    #btnPDF{
+        display:none;
+        margin-top:20px;
+        background:#3b82f6;
+        box-shadow:0 4px 15px rgba(59,130,246,.3);
+    }
+
+    #btnPDF:hover{
+        background:#2563eb;
+    }
+
+    /* =========================
+        TEXTO DE CARGA
+    ========================== */
+
+    .loading{
+        display:none;
+        margin-top:20px;
+        text-align:center;
+        font-size:18px;
+        color:#22c55e;
+        font-weight:bold;
+        animation:pulse 1s infinite;
+    }
+
+    /* ANIMACIÓN LOADING */
+
+    @keyframes pulse{
+
+        0%{
+            opacity:0.4;
+        }
+
+        50%{
+            opacity:1;
+        }
+
+        100%{
+            opacity:0.4;
+        }
+    }
+
+    /* =========================
+        RESULTADO IA
+    ========================== */
+
+    #resultado{
+        margin-top:30px;
+        background:#0f172a;
+        padding:20px;
+        border-radius:10px;
+        white-space:pre-wrap;
+        line-height:1.8;
+        animation:fadeIn 0.5s ease;
+    }
+
+    /* ANIMACIÓN RESULTADO */
+
+    @keyframes fadeIn{
+
+        from{
+            opacity:0;
+            transform:translateY(10px);
+        }
+
+        to{
+            opacity:1;
+            transform:translateY(0);
+        }
+    }
+
+    </style>
 
 </head>
 
 <body>
 
-<div class="container">
+    <!-- =========================
+        CONTENEDOR PRINCIPAL
+    ========================== -->
 
-    <h1>FitAI Agent</h1>
+    <div class="container">
 
-    <input type="text" id="nombre" placeholder="Nombre">
+        <!-- TÍTULO -->
+        <h1>FitAI Agent</h1>
 
-    <input type="number" id="edad" placeholder="Edad">
+        <!-- INPUT NOMBRE -->
+        <input 
+            type="text" 
+            id="nombre" 
+            placeholder="Nombre"
+        >
 
-    <input type="number" id="peso" placeholder="Peso (kg)">
+        <!-- INPUT EDAD -->
+        <input 
+            type="number" 
+            id="edad" 
+            placeholder="Edad"
+        >
 
-    <input type="number" id="altura" placeholder="Altura (m)">
+        <!-- INPUT PESO -->
+        <input 
+            type="number" 
+            id="peso" 
+            placeholder="Peso (kg)"
+        >
 
-    <select id="objetivo">
-        <option value="ganar masa muscular">Ganar masa muscular</option>
-        <option value="ganar fuerza">Ganar fuerza</option>
-        <option value="perder grasa">Perder grasa</option>
-    </select>
+        <!-- INPUT ALTURA -->
+        <input 
+            type="number" 
+            id="altura" 
+            placeholder="Altura (m)"
+        >
 
-    <input type="number" id="dias" placeholder="Días de entrenamiento">
+        <!-- SELECT OBJETIVO -->
+        <select id="objetivo">
 
-    <button id="btnRutina" onclick="generarRutina()">
-        Generar Rutina
-    </button>
+            <option value="ganar masa muscular">
+                Ganar masa muscular
+            </option>
 
-    <div id="loading" class="loading">
-        Generando rutina con IA...
+            <option value="ganar fuerza">
+                Ganar fuerza
+            </option>
+
+            <option value="perder grasa">
+                Perder grasa
+            </option>
+
+        </select>
+
+        <!-- INPUT DÍAS -->
+        <input 
+            type="number" 
+            id="dias" 
+            placeholder="Días de entrenamiento"
+        >
+
+        <!-- BOTÓN PRINCIPAL -->
+        <button 
+            id="btnRutina" 
+            onclick="generarRutina()"
+        >
+            Generar Rutina
+        </button>
+
+        <!-- MENSAJE LOADING -->
+        <div id="loading" class="loading">
+            Generando rutina con IA...
+        </div>
+
+        <!-- RESULTADO DE IA -->
+        <div id="resultado"></div>
+
+        <!-- BOTÓN PDF -->
+        <button 
+            id="btnPDF" 
+            onclick="descargarPDF()"
+        >
+            Descargar PDF
+        </button>
+
     </div>
 
-    <div id="resultado"></div>
+    <!-- =========================
+        LIBRERÍA PDF
+    ========================== -->
 
-    <button id="btnPDF" onclick="descargarPDF()">
-        Descargar PDF
-    </button>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-</div>
+    <script>
 
-<!-- LIBRERÍA PDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    /* ===================================================
+        FUNCIÓN PRINCIPAL
+        ENVÍA LOS DATOS A N8N + IA
+    ==================================================== */
 
-<script>
+    async function generarRutina(){
 
-async function generarRutina(){
+        /* =========================
+            OBTENER DATOS DEL FORMULARIO
+        ========================== */
 
-    const data = {
-        nombre: document.getElementById("nombre").value,
-        edad: Number(document.getElementById("edad").value),
-        peso: Number(document.getElementById("peso").value),
-        altura: Number(document.getElementById("altura").value),
-        objetivo: document.getElementById("objetivo").value,
-        dias_entrenamiento: Number(document.getElementById("dias").value)
-    };
+        const data = {
 
-    const loading = document.getElementById("loading");
+            nombre: document.getElementById("nombre").value,
 
-    const boton = document.getElementById("btnRutina");
+            edad: Number(
+                document.getElementById("edad").value
+            ),
 
-    const resultadoDiv = document.getElementById("resultado");
+            peso: Number(
+                document.getElementById("peso").value
+            ),
 
-    resultadoDiv.innerHTML = "";
+            altura: Number(
+                document.getElementById("altura").value
+            ),
 
-    document.getElementById("btnPDF").style.display = "none";
+            objetivo: document.getElementById("objetivo").value,
 
-    // VALIDACIÓN
-    if(
-        !data.nombre ||
-        !data.edad ||
-        !data.peso ||
-        !data.altura ||
-        !data.dias_entrenamiento
-    ){
-        alert("Completa todos los campos");
-        return;
+            dias_entrenamiento: Number(
+                document.getElementById("dias").value
+            )
+        };
+
+        /* =========================
+            ELEMENTOS HTML
+        ========================== */
+
+        const loading = document.getElementById("loading");
+
+        const boton = document.getElementById("btnRutina");
+
+        const resultadoDiv = document.getElementById("resultado");
+
+        /* LIMPIAR RESULTADO ANTERIOR */
+
+        resultadoDiv.innerHTML = "";
+
+        /* OCULTAR BOTÓN PDF */
+
+        document.getElementById("btnPDF").style.display = "none";
+
+        /* =========================
+            VALIDACIÓN
+        ========================== */
+
+        if(
+            !data.nombre ||
+            !data.edad ||
+            !data.peso ||
+            !data.altura ||
+            !data.dias_entrenamiento
+        ){
+
+            alert("Completa todos los campos");
+
+            return;
+        }
+
+        /* =========================
+            ACTIVAR LOADING
+        ========================== */
+
+        loading.style.display = "block";
+
+        boton.disabled = true;
+
+        boton.innerText = "Generando...";
+
+        try{
+
+            /* =========================
+                PETICIÓN AL WEBHOOK N8N
+            ========================== */
+
+            const response = await fetch(
+
+                "http://localhost:5678/webhook/fitness-agent",
+
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+
+                    body: JSON.stringify(data)
+                }
+            );
+
+            /* RESPUESTA IA */
+
+            const resultado = await response.text();
+
+            /* =========================
+                FORMATEAR RESPUESTA
+            ========================== */
+
+            resultadoDiv.innerHTML = resultado
+
+                /* SALTOS DE LÍNEA */
+
+                .replace(/\n/g, "<br>")
+
+                /* TEXTO EN NEGRITA */
+
+                .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+
+                /* TÍTULOS */
+
+                .replace(/### (.*?)(<br>|$)/g, "<h3>$1</h3>");
+
+            /* SCROLL AUTOMÁTICO */
+
+            resultadoDiv.scrollIntoView({
+                behavior:"smooth"
+            });
+
+            /* MOSTRAR BOTÓN PDF */
+
+            document.getElementById("btnPDF").style.display = "block";
+
+        }catch(error){
+
+            /* =========================
+                ERROR DE CONEXIÓN
+            ========================== */
+
+            resultadoDiv.innerHTML = `
+                <div style="
+                    color:#f87171;
+                    font-weight:bold;
+                    text-align:center;
+                ">
+                    Error conectando con la IA ⚠️
+                </div>
+            `;
+
+        }finally{
+
+            /* =========================
+                DESACTIVAR LOADING
+            ========================== */
+
+            loading.style.display = "none";
+
+            boton.disabled = false;
+
+            boton.innerText = "Generar Rutina";
+        }
     }
 
-    // LOADING
-    loading.style.display = "block";
+    /* ===================================================
+        DESCARGAR PDF
+    ==================================================== */
 
-    boton.disabled = true;
+    function descargarPDF(){
 
-    boton.innerText = "Generando...";
+        /* CREAR DOCUMENTO PDF */
 
-    try{
+        const { jsPDF } = window.jspdf;
 
-        const response = await fetch(
-            "http://localhost:5678/webhook/fitness-agent",
-            {
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json"
-                },
-                body: JSON.stringify(data)
-            }
-        );
+        const doc = new jsPDF();
 
-        const resultado = await response.text();
+        /* OBTENER TEXTO DEL RESULTADO */
 
-        resultadoDiv.innerHTML = resultado
+        const texto = document.getElementById("resultado").innerText;
 
-            .replace(/\n/g, "<br>")
-            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
-            .replace(/### (.*?)(<br>|$)/g, "<h3>$1</h3>");
+        /* CONFIGURAR FUENTE */
 
-        resultadoDiv.scrollIntoView({
-            behavior:"smooth"
-        });
+        doc.setFont("helvetica");
 
-        // MOSTRAR BOTÓN PDF
-        document.getElementById("btnPDF").style.display = "block";
+        doc.setFontSize(12);
 
-    }catch(error){
+        /* AJUSTAR TEXTO AL ANCHO */
 
-        resultadoDiv.innerHTML = `
-        <div style="
-            color:#f87171;
-            font-weight:bold;
-            text-align:center;
-        ">
-            Error conectando con la IA ⚠️
-        </div>
-        `;
+        const lineas = doc.splitTextToSize(texto, 180);
 
-    }finally{
+        /* ESCRIBIR TEXTO */
 
-        loading.style.display = "none";
+        doc.text(lineas, 15, 20);
 
-        boton.disabled = false;
+        /* DESCARGAR PDF */
 
-        boton.innerText = "Generar Rutina";
+        doc.save("rutina-fitai.pdf");
     }
-}
 
-// DESCARGAR PDF
-function descargarPDF(){
-
-    const { jsPDF } = window.jspdf;
-
-    const doc = new jsPDF();
-
-    const texto = document.getElementById("resultado").innerText;
-
-    doc.setFont("helvetica");
-
-    doc.setFontSize(12);
-
-    const lineas = doc.splitTextToSize(texto, 180);
-
-    doc.text(lineas, 15, 20);
-
-    doc.save("rutina-fitai.pdf");
-}
-
-</script>
+    </script>
 
 </body>
+
 </html>
